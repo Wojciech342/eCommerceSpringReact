@@ -1,10 +1,7 @@
 package com.ecommerce.project.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +19,14 @@ public class Product {
     private long productId;
     private String productName;
     private String description;
+    private String image;
     private Integer quantity;
     private double price;
+    private double discount;
     private double specialPrice;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 
 }
