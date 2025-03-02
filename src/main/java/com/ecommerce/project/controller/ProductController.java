@@ -22,15 +22,19 @@ public class ProductController {
 
     @PostMapping("/admin/categories/{categoryId}/products")
     public ResponseEntity<ProductDTO> addProducts(@RequestBody Product product, @PathVariable Long categoryId) {
-
         ProductDTO productDTO = productService.addProduct(product, categoryId);
         return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/public/products")
     public ResponseEntity<ProductResponse> getAllProducts() {
-
         ProductResponse productResponse = productService.getAllProducts();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/public/categories/{categoryId}/products")
+    public ResponseEntity<ProductResponse> getProductsByCategory(@PathVariable Long categoryId) {
+        ProductResponse productResponse = productService.searchByCategory(categoryId);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 }
