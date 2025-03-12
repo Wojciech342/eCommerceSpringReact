@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,6 +30,7 @@ public class Product {
 
     private String description;
     private String image;
+    // Maybe should remove quantity field from product class
     private Integer quantity;
     private double price;
     private double discount;
@@ -39,5 +43,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private User user;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    private List<CartItem> products = new ArrayList<>();
 
 }
