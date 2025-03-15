@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "addresses")
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Address {
     @Id
@@ -35,9 +36,9 @@ public class Address {
     @NotBlank
     private String pincode;
 
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Address(String street, String buildingName, String city, String state, String country, String pincode) {
         this.street = street;
