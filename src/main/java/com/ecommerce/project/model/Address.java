@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "addresses")
 @Getter
@@ -39,13 +36,4 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public Address(String street, String buildingName, String city, String state, String country, String pincode) {
-        this.street = street;
-        this.buildingName = buildingName;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.pincode = pincode;
-    }
 }

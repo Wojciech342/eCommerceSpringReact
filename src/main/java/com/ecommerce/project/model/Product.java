@@ -31,7 +31,7 @@ public class Product {
     private String description;
     private String image;
     // Maybe should remove quantity field from product class
-    private Integer quantity;
+    private Integer stock;
     private double price;
     private double discount;
     private double specialPrice;
@@ -45,6 +45,6 @@ public class Product {
     private User user;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    private List<CartItem> products = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
 }

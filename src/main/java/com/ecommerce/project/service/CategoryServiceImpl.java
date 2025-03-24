@@ -43,6 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new APIException("There are no categories available");
         }
 
+
         List<CategoryDTO> categoryDTOS = categories.stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
                 .toList();
