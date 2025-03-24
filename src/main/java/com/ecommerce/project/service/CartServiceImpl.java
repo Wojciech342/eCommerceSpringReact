@@ -15,8 +15,6 @@ import com.ecommerce.project.util.AuthUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -51,13 +49,13 @@ public class CartServiceImpl implements CartService {
             throw new APIException("Product " + product.getProductName() + " already exists in the cart");
         }
 
-        if (product.getQuantity() == 0) {
+        if (product.getStock() == 0) {
             throw new APIException(product.getProductName() + " is not available");
         }
 
-        if (product.getQuantity() < quantity) {
+        if (product.getStock() < quantity) {
             throw new APIException("Please, make an order of the " + product.getProductName()
-                    + " less than or equal to the quantity " + product.getQuantity() + ".");
+                    + " less than or equal to the quantity " + product.getStock() + ".");
         }
 
         CartItem newCartItem = new CartItem();
@@ -73,7 +71,7 @@ public class CartServiceImpl implements CartService {
         // this is needed when there is a new cart but not when for existing cart
         cart.getCartItems().add(newCartItem);
 
-        product.setQuantity(product.getQuantity());
+        product.setStock(product.getStock());
 
         cart.setTotalPrice(cart.getTotalPrice() + (product.getSpecialPrice() * quantity));
 
@@ -93,8 +91,6 @@ public class CartServiceImpl implements CartService {
         cartDTO.setProducts(productStream.toList());
 
         return cartDTO;
-
-
     }
 
     @Override
@@ -106,7 +102,7 @@ public class CartServiceImpl implements CartService {
         }
 
 
-        List<CartDTO> cartDTOS = carts.stream().map(cart -> {
+        List<CartDTO> cartDTOs = carts.stream().map(cart -> {
             CartDTO cartDTO =  modelMapper.map(cart, CartDTO.class);
 
             List<ProductDTO> products = cart.getCartItems().stream()
@@ -121,7 +117,7 @@ public class CartServiceImpl implements CartService {
             return cartDTO;
         }).toList();
 
-        return cartDTOS;
+        return cartDTOs;
     }
 
     @Override
@@ -133,7 +129,7 @@ public class CartServiceImpl implements CartService {
         }
 
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
-        cart.getCartItems().forEach(cartItem -> cartItem.getProduct().setQuantity(cartItem.getQuantity()));
+        cart.getCartItems().forEach(cartItem -> cartItem.getProduct().setStock(cartItem.getQuantity()));
         List<ProductDTO> products = cart.getCartItems().stream()
                 .map(cartItem -> modelMapper.map(cartItem.getProduct(), ProductDTO.class)).toList();
         cartDTO.setProducts(products);
@@ -169,13 +165,13 @@ public class CartServiceImpl implements CartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-        if (product.getQuantity() == 0) {
+        if (product.getStock() == 0) {
             throw new APIException(product.getProductName() + " is not available");
         }
 
-        if (product.getQuantity() < quantity) {
+        if (product.getStock() < quantity) {
             throw new APIException("Please, make an order of the " + product.getProductName()
-                    + " less than or equal to the quantity " + product.getQuantity() + ".");
+                    + " less than or equal to the quantity " + product.getStock() + ".");
         }
 
         CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId, productId);
