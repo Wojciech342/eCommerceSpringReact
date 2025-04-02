@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import ProductViewModal from './ProductViewModal';
 import truncateText from '../../utils/truncateText';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/actions';
+import toast from 'react-hot-toast';
 
 const ProductCard = ({
     productId,
     productName,
     image,
     description,
-    quantity,
+    stock,
     price,
     discount,
     specialPrice,
@@ -17,13 +20,18 @@ const ProductCard = ({
     const [openProductViewModal, setOpenProductViewModal] = useState(false);
     const btnLoader = false;
     const [selectedViewProduct, setSelectedViewProduct] = useState('');
-    const isAvailable = quantity && Number(quantity) > 0;
+    const isAvailable = stock && Number(stock) > 0;
+    const dispatch = useDispatch();
 
     const handleProductView = (product) => {
         if (!about) {
             setSelectedViewProduct(product);
             setOpenProductViewModal(true);
         }
+    };
+
+    const addToCartHandler = (cartItems) => {
+        dispatch(addToCart(cartItems, 1, toast));
     };
 
     return (
@@ -35,7 +43,7 @@ const ProductCard = ({
                         productName,
                         image,
                         description,
-                        quantity,
+                        stock,
                         price,
                         discount,
                         specialPrice,
@@ -57,7 +65,7 @@ const ProductCard = ({
                             productName,
                             image,
                             description,
-                            quantity,
+                            stock,
                             price,
                             discount,
                             specialPrice,
@@ -95,7 +103,17 @@ const ProductCard = ({
 
                         <button
                             disabled={!isAvailable || btnLoader}
-                            onClick={() => {}}
+                            onClick={() =>
+                                addToCartHandler({
+                                    image,
+                                    productName,
+                                    description,
+                                    specialPrice,
+                                    price,
+                                    productId,
+                                    stock,
+                                })
+                            }
                             className={`bg-blue-500 ${
                                 isAvailable
                                     ? 'opacity-100 hover:bg-blue-600'
