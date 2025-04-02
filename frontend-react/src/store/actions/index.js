@@ -23,8 +23,9 @@ export const fetchProducts = (queryString) => async (dispatch) => {
     }
 };
 
-export const fetchCategories = (queryString) => async (dispatch) => {
+export const fetchCategories = () => async (dispatch) => {
     try {
+        console.log('categories');
         dispatch({ type: 'CATEGORY_LOADER' });
         const { data } = await api.get(`/public/categories`);
         dispatch({
@@ -36,6 +37,7 @@ export const fetchCategories = (queryString) => async (dispatch) => {
             totalPages: data.totalPages,
             lastPage: data.lastPage,
         });
+
         dispatch({ type: 'CATEGORY_SUCCESS' });
     } catch (error) {
         console.error(error);
@@ -46,3 +48,28 @@ export const fetchCategories = (queryString) => async (dispatch) => {
         });
     }
 };
+
+export const addToCart =
+    (data, quantity = 1, toast) =>
+    (dispatch, getState) => {
+        const { products } = getState().products;
+        const getProduct = products.find(
+            (item) => item.productId === data.productId
+        );
+
+        const quantityExist = getProduct.stock >= quantity;
+
+        if (quantityExist) {
+            dispatch({
+                type: 'ADD_CART',
+                payload: { ...data, quantity: quantity },
+            });
+            toast.success(`${data?.productName} added to the cart`);
+            localStorage.setItem(
+                'cartItems',
+                JSON.stringify(getState().carts.cart)
+            );
+        } else {
+            toast.error('Out of stock');
+        }
+    };
