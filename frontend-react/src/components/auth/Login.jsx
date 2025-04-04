@@ -44,11 +44,11 @@ const Login = () => {
                 <hr className='mt-2 mb-5 text-black' />
                 <div className='flex flex-col gap-3'>
                     <InputField
-                        label='UserName'
+                        label='Username'
                         required
                         id='username'
                         type='text'
-                        message='*UserName is required'
+                        message='*Username is required'
                         placeholder='Enter your username'
                         register={register}
                         errors={errors}
