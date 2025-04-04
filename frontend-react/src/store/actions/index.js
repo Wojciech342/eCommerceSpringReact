@@ -125,7 +125,7 @@ export const authenticateSignInUser =
         try {
             setLoader(true);
             const { data } = await api.post('/auth/signin', sendData);
-            dispatch({ type: 'LOGIN_USER', payload: data });
+            dispatch({ type: 'LOG_IN_USER', payload: data });
             localStorage.setItem('auth', JSON.stringify(data));
             reset();
             toast.success('Login Success');
@@ -159,3 +159,9 @@ export const registerNewUser =
             setLoader(false);
         }
     };
+
+export const logOutUser = (navigate) => (dispatch) => {
+    dispatch({ type: 'LOG_OUT_USER' });
+    localStorage.removeItem('auth');
+    navigate('/login');
+};
