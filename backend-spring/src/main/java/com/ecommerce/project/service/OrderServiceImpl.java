@@ -1,16 +1,15 @@
 package com.ecommerce.project.service;
 
-
 import com.ecommerce.project.exception.APIException;
 import com.ecommerce.project.exception.ResourceNotFoundException;
 import com.ecommerce.project.model.*;
 import com.ecommerce.project.payload.OrderDTO;
 import com.ecommerce.project.payload.OrderItemDTO;
 import com.ecommerce.project.repository.*;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     CartRepository cartRepository;
 
@@ -53,11 +53,6 @@ public class OrderServiceImpl implements OrderService {
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
 
-        List<CartItem> cartItems = cart.getCartItems();
-        if (cartItems.isEmpty()) {
-            throw new APIException("Cart is empty");
-        }
-
         Order order = new Order();
         order.setEmail(emailId);
         order.setOrderDate(LocalDate.now());
@@ -72,6 +67,10 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
+        List<CartItem> cartItems = cart.getCartItems();
+        if (cartItems.isEmpty()) {
+            throw new APIException("Cart is empty");
+        }
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
@@ -91,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
             Product product = item.getProduct();
 
             // Reduce stock quantity
-            product.setStock(product.getStock() - quantity);
+            product.setQuantity(product.getQuantity() - quantity);
 
             // Save product back to the database
             productRepository.save(product);
