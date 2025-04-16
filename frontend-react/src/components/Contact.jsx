@@ -12,7 +12,7 @@ const Contact = () => {
                 </h1>
                 <p className='text-gray-600 text-center mb-4'>
                     We would love to hear from you! Please fill out the form
-                    below or contact us directly
+                    below or contact us directly.
                 </p>
 
                 <form className='space-y-4'>
@@ -62,22 +62,20 @@ const Contact = () => {
                         <div className='flex items-center'>
                             <FaPhone className='text-blue-500 mr-2' />
                             <span className='text-gray-600'>
-                                +4 8961 944 149
+                                +48 123 456 789
                             </span>
                         </div>
 
                         <div className='flex items-center'>
                             <FaEnvelope className='text-blue-500 mr-2' />
                             <span className='text-gray-600'>
-                                embarkxofficial@gmail.com
+                                wojciech@gmail.com
                             </span>
                         </div>
 
                         <div className='flex items-center'>
                             <FaMapMarkedAlt className='text-blue-500 mr-2' />
-                            <span className='text-gray-600'>
-                                123 Main, Town, USA
-                            </span>
+                            <span className='text-gray-600'>Lodz, Poland</span>
                         </div>
                     </div>
                 </div>
