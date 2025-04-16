@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AuthUtil {
 
     UserRepository userRepository;
-
+    @Autowired
     public AuthUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
