@@ -25,7 +25,6 @@ export const fetchProducts = (queryString) => async (dispatch) => {
 
 export const fetchCategories = () => async (dispatch) => {
     try {
-        console.log('categories');
         dispatch({ type: 'CATEGORY_LOADER' });
         const { data } = await api.get(`/public/categories`);
         dispatch({
@@ -57,7 +56,7 @@ export const addToCart =
             (item) => item.productId === data.productId
         );
 
-        const quantityExist = getProduct.stock >= quantity;
+        const quantityExist = getProduct.quantity >= quantity;
 
         if (quantityExist) {
             dispatch({
@@ -83,7 +82,7 @@ export const increaseCartQuantity =
             (item) => item.productId === data.productId
         );
 
-        const isQuantityExist = getProduct.stock >= currentQuantity + 1;
+        const isQuantityExist = getProduct.quantity >= currentQuantity + 1;
 
         if (isQuantityExist) {
             const newQuantity = currentQuantity + 1;
@@ -169,12 +168,6 @@ export const logOutUser = (navigate) => (dispatch) => {
 export const addUpdateUserAddress =
     (sendData, toast, addressId, setOpenAddressModal) =>
     async (dispatch, getState) => {
-        /*
-    const { user } = getState().auth;
-    await api.post(`/addresses`, sendData, {
-          headers: { Authorization: "Bearer " + user.jwtToken },
-        });
-    */
         dispatch({ type: 'BUTTON_LOADER' });
         try {
             if (!addressId) {
