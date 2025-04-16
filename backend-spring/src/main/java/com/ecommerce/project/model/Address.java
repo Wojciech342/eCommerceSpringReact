@@ -19,9 +19,6 @@ public class Address {
     private String street;
 
     @NotBlank
-    private String buildingName;
-
-    @NotBlank
     private String city;
 
     @NotBlank

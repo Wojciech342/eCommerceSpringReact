@@ -84,7 +84,6 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
 
         addressFromDB.setStreet(addressDTO.getStreet());
-        addressFromDB.setBuildingName(addressDTO.getBuildingName());
         addressFromDB.setCity(addressDTO.getCity());
         addressFromDB.setState(addressDTO.getState());
         addressFromDB.setCountry(addressDTO.getCountry());
